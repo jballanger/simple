@@ -67,7 +67,7 @@
             $leadContent = substr($leadContent, 0) . '...';
           }
 
-          echo "<div class='col-md-4'><h2>". $post->title() ."</h2><p>". $leadContent ."</p><p><a class='btn btn-primary' href='post.php?id=". $post->id() ."'>View More »</a></p></div>";
+          echo "<div class='col-md-4'><h2>". $post->title() ."</h2><p>". $leadContent ."</p><p><a class='btn btn-primary' href='blog.php?id=". $post->id() ."'>View More »</a></p></div>";
         }
       ?>
       </div>

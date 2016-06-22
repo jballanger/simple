@@ -2,7 +2,8 @@
   require('./lib/autoload.php');
   
   $db = DBFactory::getPDO();
-  $manager = new PostsManager($db);
+  $postsManager = new PostsManager($db);
+  $commentsManager = new CommentsManager($db);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +37,7 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row">
-        <?php (isset($_GET['id'])) ? require('blogPost.php') : ((isset($_GET['s'])) ? require('blogSearch.php') : require('blogList.php')); ?>
+        <?php (isset($_GET['id']) && ($postsManager->exists($_GET['id']))) ? require('blogPost.php') : ((isset($_GET['s'])) ? require('blogSearch.php') : require('blogList.php')); ?>
 
             <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
@@ -64,14 +65,14 @@
                       <div class='col-lg-6'>
                         <ul class="list-unstyled">
                           <?php
-                            $nList = $manager->getRandom(3, []);
+                            $nList = $postsManager->getRandom(3, []);
                           ?>
                         </ul>
                       </div>
                       <div class="col-lg-6">
                           <ul class="list-unstyled">
                             <?php
-                              $manager->getRandom(3, $nList);
+                              $postsManager->getRandom(3, $nList);
                             ?>
                           </ul>
                       </div>
@@ -97,5 +98,11 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./bootstrap/ie10-viewport-bug-workaround.js"></script>
 
+    <script>
+        if($('#authorComment').length > 0)
+        {
+            $("#authorComment").val($('#authorName').html());
+        }
+    </script>
   </body>
 </html>

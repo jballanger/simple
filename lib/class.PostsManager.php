@@ -20,12 +20,17 @@
 
     public function count()
     {
-      return $this->db->query('SELECT  COUNT(*) FROM posts')->fetchColumn();
+      return $this->db->query('SELECT COUNT(*) FROM posts')->fetchColumn();
     }
 
     public function delete($id)
     {
       $this->db->exec('DELETE FROM posts WHERE id='.(int) $id);
+    }
+
+    public function exists($id)
+    {
+      return $this->db->query('SELECT COUNT(*) FROM posts WHERE id ='. (int) $id)->fetchColumn();
     }
 
     public function getList($start = -1, $limit = -1)
@@ -117,7 +122,7 @@
       return $postsList;
     }
 
-    protected function update(post $post)
+    protected function update(Posts $post)
     {
       $request = $this->db->prepare('UPDATE posts SET author = :author, title = :title, content = :content, uppDate = NOW() WHERE id = :id');
 
