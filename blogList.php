@@ -8,7 +8,7 @@ http://bootsnipp.com/snippets/featured/list-of-blog-posts
 <div class="col-lg-8">
     <div id="postlist">
         <?php
-            foreach($manager->getList(0, 10) as $post)
+            foreach($postsManager->getList(0, 10) as $post)
             {
                 if(strlen($post->leadContent()) <= 301)
                 {
