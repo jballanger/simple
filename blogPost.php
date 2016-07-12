@@ -55,10 +55,12 @@
 
                 <!-- Comments Form -->
                 <div class="well">
-                    <h4>Leave a Comment as <span id='authorName'><?php echo (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : "Anonymous" ?></span></h4>
+                    <h4>
+                    Leave a Comment as <span class='authorName'><?php echo (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : "Anonymous" ?></span>
+                    </h4>
                     <form role="form" method="POST" action="comment.php?postId=<?php echo $post->id(); ?>&parentId=0">
                         <div class="form-group">
-                            <input type='hidden' id='authorComment' name='author' />
+                            <input type='hidden' class='authorComment' name='author' />
                             <textarea class="form-control" rows="3" name="content"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -66,51 +68,43 @@
                 </div>
 
                 <hr>
-
                 <!-- Comments -->
-                <?php 
-                    if(!empty($commentsManager->getComments($post->id(), false)))
-                    {
-                        foreach($commentsManager->getComments($post->id(), false) as $comment)
+                <section class="comment-list">
+                    <?php
+                        if($commentsManager->getComments($post->id(), false, false))
                         {
-                ?>
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading"><?php echo $comment->author(); ?>
-                            <small><?php echo $comment->addDate()->format("l, d-m-Y H:i:s"); ?></small>
-                        </h4>
-                        <?php echo $comment->content(); ?>
-                        <!-- Nested Comment -->
-                        <?php
-                            foreach($commentsManager->getComments($post->id(), true) as $nestedComment)
+                            foreach($commentsManager->getComments($post->id(), false, false) as $comment)
                             {
-                                if($nestedComment->parentId() == $comment->id())
-                                {
-                        ?>
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="http://placehold.it/64x64" alt="">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading"><?php echo $nestedComment->author(); ?>
-                                    <small><?php echo $nestedComment->addDate()->format("l, d-m-Y H:i:s"); ?></small>
-                                </h4>
-                                <?php echo $nestedComment->content(); ?>
-                            </div>
+                    ?> 
+                    <article class="row">
+                        <div class="col-md-2 col-sm-2 hidden-xs">
+                          <figure class="thumbnail">
+                            <img class="img-responsive" src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" />
+                            <figcaption class="text-center"><?php echo $comment->author(); ?></figcaption>
+                          </figure>
                         </div>
-                        <?php
-                                } // if closure
-                            } // foreach closure
-                        ?>
-                        <!-- End Nested Comment -->
-                    </div>
-                </div>
-                <?php
-                        } //foreach closure
-                    } //if closure
-                ?>
-                <!-- End Comments -->
+                        <div class="col-md-10 col-sm-10">
+                          <div class="panel panel-default arrow left">
+                            <div class="panel-body">
+                              <header class="text-left">
+                                <div class="comment-user"><i class="fa fa-user"></i> <?php echo $comment->author(); ?></div>
+                                <time class="comment-date" datetime="<?php echo $post->addDate()->format("l, d-m-Y H:i:s"); ?>">
+                                    <i class="fa fa-clock-o"></i> <?php echo $post->addDate()->format("l, d-m-Y H:i:s"); ?>
+                                </time>
+                              </header>
+                              <div class="comment-post">
+                                <p>
+                                 <?php echo $comment->content(); ?>
+                                </p>
+                              </div>
+                              <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
+                            </div>
+                          </div>
+                        </div>
+                    </article>
+                    <?php
+                            } //foreach closure
+                        } //if closure
+                    ?>
+                </section>
             </div>

@@ -24,11 +24,11 @@ class CommentsManager
 		$this->db->exec("DELETE FROM comments WHERE id=". (int) $id);
 	}
 
-	public function getComments($postId, $nested)
+	public function getComments($postId, $nested, $prevId)
 	{
 		if($nested)
 		{
-			$request = $this->db->query("SELECT id, postId, parentId, content, author, addDate FROM comments WHERE postId =". (int) $postId ." AND parentId != 0");
+			$request = $this->db->query("SELECT id, postId, parentId, content, author, addDate FROM comments WHERE postId =". (int) $postId ." AND parentId = ". (int) $prevId);
 		}
 		else
 		{
@@ -41,7 +41,7 @@ class CommentsManager
 
 		if(empty($commentsList) && !$nested)
 		{
-			echo "No comment yet, be the first !";
+			echo "<h4 class='alert alert-info'>No comment yet, be the first !</h4>";
 			return;
 		}
 

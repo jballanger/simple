@@ -25,7 +25,10 @@ http://bootsnipp.com/snippets/featured/list-of-blog-posts
                 <div class="text-center">
                     <div class="row">
                         <div class="col-sm-9">
-                            <h3 class="pull-left"><a href='blog.php?id=<?php echo $post->id(); ?>'><?php echo $post->title(); ?></a></h3>
+                            <h3 class="pull-left">
+                                <a href='blog.php?id=<?php echo $post->id(); ?>'><?php echo $post->title(); ?></a> 
+                                <small>by <a href="user.php?u=<?php echo $post->author(); ?>"><?php echo $post->author(); ?></a></small>
+                            </h3>
                         </div>
                         <div class="col-sm-3" style='padding-top:17px;'>
                             <h4 class="pull-right">
