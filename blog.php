@@ -20,7 +20,8 @@
 
     <link href="./bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="./bootstrap/blog-post.css" rel="stylesheet">
-
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -37,7 +38,24 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row">
-        <?php (isset($_GET['id']) && ($postsManager->exists($_GET['id']))) ? require('blogPost.php') : ((isset($_GET['s'])) ? require('blogSearch.php') : require('blogList.php')); ?>
+        <?php
+            if(isset($_GET['id']) && ($postsManager->exists($_GET['id'])))
+            {
+                require('blogPost.php');
+            }
+            elseif(isset($_GET['search']))
+            {
+                require('blogSearch.php');
+            }
+            elseif(isset($_GET['author']))
+            {
+                require('blogAuthor.php');
+            }
+            else
+            {
+                require('blogList.php');
+            }
+        ?>
 
             <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
@@ -47,7 +65,7 @@
                     <h4>Blog Search</h4>
                     <form method='GET' action='blog.php'>
                         <div class="input-group">
-                            <input type="text" class="form-control" name='s'>
+                            <input type="text" class="form-control" name='search'>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
                                     <span class="glyphicon glyphicon-search"></span>
@@ -99,10 +117,39 @@
     <script src="./bootstrap/ie10-viewport-bug-workaround.js"></script>
 
     <script>
-        if($('#authorComment').length > 0)
+        function setAuthor()
         {
-            $("#authorComment").val($('#authorName').html());
+            if($('.authorComment').length > 0)
+            {
+                $(".authorComment").val($('.authorName').html());
+            }
         }
+
+        setAuthor();
+
+        $('.media').each(function()
+        {
+            var commentId = $(this).attr('commentId');
+            var parentId = $(this).attr('parentId');
+            $(this).appendTo()
+        });
+
+        $('.flat-list-buttons').click(function()
+        {
+            var commentId = $(this).attr('commentId');
+
+            if($(this).html() == "reply")
+            {
+                var replyForm = "<div class='well'><h4>Leave a Comment as <span class='authorName'><?php echo (isset($_SESSION['pseudo'])) ? $_SESSION['pseudo'] : "Anonymous" ?></span></h4><form role='form' method='POST' action='comment.php?postId=<?php echo $post->id(); ?>&parentId="+ commentId +"'><div class='form-group'><input type='hidden' class='authorComment' name='author' /><textarea class='form-control' rows='3' name='content'></textarea></div><button type='submit' class='btn btn-primary'>Submit</button></form></div>";
+
+                $(this).parent().after().append(replyForm);
+                setAuthor();
+            }
+            else if($(this).html() == "report")
+            {
+                alert('report!');
+            }
+        });
     </script>
   </body>
 </html>

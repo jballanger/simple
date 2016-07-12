@@ -35,7 +35,7 @@
 
     public function getList($start = -1, $limit = -1)
     {
-      $sql = "SELECT id, title, leadContent, addDate, tags FROM posts ORDER BY id DESC";
+      $sql = "SELECT id, title, leadContent, addDate, tags, author FROM posts ORDER BY id DESC";
 
       if($start != -1 || $limit != -1)
       {
@@ -95,20 +95,26 @@
       }
     }
 
-    public function getSearch($string)
+    public function getSearch($string, $type)
     {
-      //$request = $this->db->query("SELECT id, title, leadContent, addDate FROM posts WHERE title LIKE '%{$string}%' OR leadContent LIKE '%{$string}%' OR content LIKE '%{$string}%'");
-      $request = $this->db->prepare("SELECT id, title, leadContent, addDate FROM posts WHERE title LIKE :string OR leadContent LIKE :string OR content LIKE :string") or die('Problem preparing query');
-      $request->bindValue(':string', '%'.$string.'%', PDO::PARAM_STR);
+      if($type == "byAuthor")
+      {
+        $request = $this->db->prepare("SELECT id, title, leadContent, addDate, author, tags FROM posts WHERE author = :string");
+        $request->bindValue(':string', $string, PDO::PARAM_STR);
+      }
+      else
+      {
+        $request = $this->db->prepare("SELECT id, title, leadContent, addDate, author, tags FROM posts WHERE title LIKE :string OR leadContent LIKE :string OR content LIKE :string");
+        $request->bindValue(':string', '%'.$string.'%', PDO::PARAM_STR);
+      }
+
       $request->execute();
-
       $request->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'posts');
-
       $postsList = $request->fetchAll();
 
       if(empty($postsList))
       {
-        echo "<p style='text-align:center;'>No result found.</p>";
+        echo "<p class='alert alert-info' style='text-align:center;'>No result found.</p>";
         return;
       }
 
