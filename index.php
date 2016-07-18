@@ -41,8 +41,19 @@
 
   <body>
 
-   <?php require('menu.php'); ?>
+  <?php require('menu.php'); ?>
 
+  <?php
+    if(isset($_SESSION['error']) && $_SESSION['error'])
+    {
+  ?>
+  <div class="message">
+    <h4 class="alert alert-danger text-center"><?php echo $_SESSION['error']; ?><a class="close" data-dismiss="alert">&times;</a></h4>
+  </div>
+  <?php
+      $_SESSION['error'] = false;
+    }
+  ?>
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
