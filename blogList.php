@@ -1,10 +1,3 @@
-<!--
-*****************************
-"List of Blog Posts"
-Bootstrap 3.2.0 Snippet by pukey22
-http://bootsnipp.com/snippets/featured/list-of-blog-posts
-*****************************
--->
 <div class="col-lg-8">
     <div id="postlist">
         <?php
