@@ -43,12 +43,9 @@
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Home</a></li>
+                  <li><a href="admin/">Panel</a></li>
                   <li><a href="#">Users</a></li>
                   <li><a href="#">Logs</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">New Ticket</a></li>
-                  <li><a href="#">New Blog Post</a></li>
                   <li role="separator" class="divider"></li>
                   <li><a href="logout.php">Logout</a></li>
                 </ul>
