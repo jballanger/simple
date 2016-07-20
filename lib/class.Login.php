@@ -8,8 +8,8 @@
 
 		public function __construct(PDO $db, $email, $password)
 		{
+			parent::__construct(8, FALSE);
 			$this->db = $db;
-			$this->PasswordHash(8, FALSE);
 			$this->setEmail($email);
 			$this->setPassword($password);
 			$this->check();
@@ -43,10 +43,12 @@
 		{
 			if($this->error == 0)
 			{
-				$query = $this->db->query("SELECT password FROM users WHERE email = '$this->email'");
-				$hash = $query->fetch();
+				$stmt = $this->db->prepare("SELECT password FROM users WHERE email = ?");
+				$stmt->execute([$this->email]);
+				$hash = $stmt->fetch();
 				if($this->CheckPassword($this->password, $hash[0]))
 				{
+					$this->updateKey();
 					return;
 				}
 				else
@@ -54,6 +56,14 @@
 					return $this->error = 3;
 				}
 			}
+		}
+
+		public function updateKey()
+		{
+			$key = random_bytes(32);
+			$stmt = $this->db->prepare("UPDATE users SET userKey = ? WHERE email = ?");
+			$stmt->execute([$key, $this->email]);
+			$_SESSION['userKey'] = $key;
 		}
 
 		public function error()
