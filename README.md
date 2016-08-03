@@ -6,6 +6,10 @@ Simple is a CMS made with object oriented PHP.
 
 More informations will come soon.
 
+## Live Demo
+[Simple version 1.17](http://julienb.alwaysdata.net)
+Current version (Git) : 1.17
+
 ## Credits
 - [Bootstrap](http://getbootstrap.com)
 - [Start Bootstrap](http://startbootstrap.com/)
