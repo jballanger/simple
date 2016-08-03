@@ -43,7 +43,7 @@
       }
 
       $request = $this->db->query($sql);
-      $request->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'posts');
+      $request->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Posts');
 
       $postsList = $request->fetchAll();
 
@@ -63,7 +63,7 @@
       $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
       $request->execute();
 
-      $request->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'post');
+      $request->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Posts');
 
       $post = $request->fetch();
 
@@ -85,7 +85,7 @@
         }
         array_push($nList, $n);
         $post = $this->getUnique($n);
-        echo "<li><a href='blog.php?id=". $post['id'] ."'>". $post['title'] ."</a></li>";
+        echo "<li><a href='blog.php?id=". $post->id() ."'>". $post->title() ."</a></li>";
         $i--;
 
         if(count($nList) == 3)

@@ -35,7 +35,7 @@ class CommentsManager
 			$request = $this->db->query("SELECT id, postId, parentId, content, author, addDate FROM comments WHERE postId =". (int) $postId ." AND parentId = 0");
 		}
 
-		$request->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'comments');
+		$request->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Comments');
 
 		$commentsList = $request->fetchAll();
 
