@@ -1,7 +1,7 @@
             <?php 
                 $reqPost = $postsManager->getUnique((int) $_GET['id']);
-                $reqPost['addDate'] = (new Datetime($reqPost['addDate']));
-                $reqPost['uppDate'] = (new Datetime($reqPost['uppDate']));
+                $reqPost->setAddDate(new Datetime($reqPost->addDate()));
+                $reqPost->setUppDate(new Datetime($reqPost->uppDate()));
                 $post = new Posts($reqPost);
             ?>
             <!-- Blog Post Content Column -->
